@@ -1,0 +1,123 @@
+<!-- This is a first example of using a template -->
+
+<head>
+
+<!-- include our libraries and css files -->
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/handlebars-v3.0.3.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+
+<script src="AnimalsData.js"></script>
+
+
+<!--<link href="css/bootstrap.css" rel="stylesheet">-->
+<link href="css/gallery.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+ <!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+    <div id="container">
+        <div class="row">
+            <div class="col-md-2" style="height:100%;">
+            	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content_left" aria-controls="content_left" aria-expanded="false" aria-label="Toggle navigation">
+   			 				<span class="navbar-toggler-icon"></span>
+  					</button>
+  					<div class="collapse navbar-collapse" id="content_left">
+    						
+  					</div>
+				</nav>
+                <!--<div id="content_left">
+                    animal list is rendered here -->
+                <!--</div>-->
+            </div>
+            <div class="col-md-10">
+                <div id="content_right">
+                    <!-- animal detail is rendered here -->
+                </div>
+            </div>
+            </div>
+    </div>
+
+    
+    
+    <script id="category-template" type="text/x-handlebars-template">
+    		<ul class="nav nav-pills nav-pills-stacked-example" style="fontsize: 1.5em;">		
+
+        {{#each animals}}
+        	<li style="margin:0 20px;"><a href="#" class="js-animal-name" data-id="{{name}}">{{name}}</a></li>
+        {{/each}}
+        	</ul>
+    </script>
+
+    <script id="animal-detail-template" type="text/x-handlebars-template">
+        <h2>{{name}}</h2>
+        <img src="{{image1}}" alt="Image1">
+        <img src="{{image2}}" alt="Image2">
+    </script>
+
+  <!-- javascript code to fill the template -->
+  <script type="text/javascript">
+
+    // grab our template code from the DOM
+    var source= $("#category-template").html();
+
+    // compile the template so we can use it
+    var template = Handlebars.compile(source);
+
+    // generate HTML from the data
+    var html= template(animals_data);
+
+    // add the HTML to the content div
+    $('#content_left').html(html);
+
+    // this event listener is triggered when the user clicks on an animal name
+    $('.js-animal-name').on('click', function(e){
+        var animal_name = $(e.target).data('id');// pull the data-id attribute, which contains the name
+        console.log('rendering detail page for '+animal_name);
+        for (var i=0;i<animals_data.animals.length;i++){// look for the animal in the array of animals
+            var an_animal = animals_data.animals[i];
+            if (an_animal.name == animal_name){// found it!
+                break;
+            }
+        }
+    // HERE IS WHERE YOU COME IN...
+        // fill in the following gaps:
+        // 1)
+        // load the html content of the animal-detail-template into a variable called sourcs
+
+        var source = $("#animal-detail-template").html();
+
+        // 2)
+        // compile the contents of that variable using Handlebars and store it into
+
+        var template = Handlebars.compile(source);
+
+        // 3)
+        // call the template function, passing it the 'an_animal' variable to render the animal data with
+        // the template and store the results in a variable.
+
+        //var html = ... ?
+        var html= template(an_animal);
+
+        // 4)
+        // finally, replace the contents of the div with id #content_right
+        // with the results of your template render
+
+        //$('#content_right')...?
+        $('#content_right').html(html);
+
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+	
